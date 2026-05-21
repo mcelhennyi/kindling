@@ -8,13 +8,13 @@
 | **Active phase** | design |
 | **Branch / worktree** | `main` |
 | **Session status** | `planning` |
-| **Next agent should** | Author `10-design-00-skeleton.md` for FR-0001, then `20-tickets-dag.md`, promote to `tickets.md`. Coordinate with hearth FR-0006 (`@kindling/mantle` ship) and grocery-list FR-0002 (consumer). |
+| **Next agent should** | **FR-0001 design is complete and paused before implementation** — see [`FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md`](feature-history/FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md). On `/feature-request-continue`, execute its Resume contract (creates `feat/FR-0001-plugin-ui-system` worktree; launches `/develop-frontier` for `T-FR-0001-01` as part of the cross-repo W0 fan-out). |
 
 ### Parallel streams
 
 | Stream label | Ticket(s) | `FR-NNNN` | Branch / worktree | Owner / note |
 |----------------|------------|-----------|-------------------|--------------|
-| design-language unification | — (design stage) | FR-0001 | `main` | Cross-repo: hearth FR-0006 + grocery-list FR-0002 |
+| plugin-ui-system (paused before develop) | T-FR-0001-01..04 (design) | FR-0001 | `main` (no feature worktree yet) | Resume contract: [`handoffs/2026-05-21-pause-before-develop.md`](feature-history/FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md). Cross-repo: hearth FR-0006, grocery FR-0002. |
 
 ---
 
