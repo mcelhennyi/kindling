@@ -4,17 +4,17 @@
 
 | Field | Value |
 |-------|--------|
-| **Active ticket** | — (FR-0001 design stage) |
-| **Active phase** | design |
-| **Branch / worktree** | `main` |
-| **Session status** | `planning` |
-| **Next agent should** | **FR-0001 design is complete and paused before implementation** — see [`FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md`](feature-history/FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md). On `/feature-request-continue`, execute its Resume contract (creates `feat/FR-0001-plugin-ui-system` worktree; launches `/develop-frontier` for `T-FR-0001-01` as part of the cross-repo W0 fan-out). |
+| **Active ticket** | T-FR-0001-01 (W0) |
+| **Active phase** | TEST/DEV/VAL in flight |
+| **Branch / worktree** | `feat/FR-0001-plugin-ui-system` @ `.worktrees/FR-0001-plugin-ui-system/feature/`; ticket worktree `feat/FR-0001-plugin-ui-system-T-FR-0001-01-python-template` @ `.worktrees/FR-0001-plugin-ui-system/T-FR-0001-01-python-template/` |
+| **Session status** | `developing` |
+| **Next agent should** | Follow `parallel/T-FR-0001-01-python-template.md` diary. When VAL-done, merge into `feat/FR-0001-plugin-ui-system`. T-FR-0001-02 stays pending until hearth T-FR-0006-15 publishes `@kindling/mantle`. |
 
 ### Parallel streams
 
 | Stream label | Ticket(s) | `FR-NNNN` | Branch / worktree | Owner / note |
 |----------------|------------|-----------|-------------------|--------------|
-| plugin-ui-system (paused before develop) | T-FR-0001-01..04 (design) | FR-0001 | `main` (no feature worktree yet) | Resume contract: [`handoffs/2026-05-21-pause-before-develop.md`](feature-history/FR-0001-plugin-ui-system/handoffs/2026-05-21-pause-before-develop.md). Cross-repo: hearth FR-0006, grocery FR-0002. |
+| W0/kindling-python-template | T-FR-0001-01 | FR-0001 | `feat/FR-0001-plugin-ui-system-T-FR-0001-01-python-template` @ `.worktrees/FR-0001-plugin-ui-system/T-FR-0001-01-python-template/` | parallel subagent. Cross-repo: hearth FR-0006, grocery FR-0002. |
 
 ---
 

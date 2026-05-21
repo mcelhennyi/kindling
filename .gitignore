@@ -1,0 +1,16 @@
+# Local worktrees (created by /develop-frontier and friends)
+.worktrees/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# OS
+.DS_Store
