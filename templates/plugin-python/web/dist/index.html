@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>{{ plugin_name }}</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { max-width: 480px; margin: 0 auto; padding: 1rem; }
+    h1 { font-size: 1.4rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>{{ plugin_name }}</h1>
+  <p>Plugin UI placeholder. Replace with your frontend.</p>
+  <script>
+    // Check plugin health
+    fetch('/health')
+      .then(r => r.json())
+      .then(d => console.log('plugin health:', d))
+      .catch(e => console.error('health check failed:', e));
+  </script>
+</body>
+</html>

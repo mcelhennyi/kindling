@@ -1,0 +1,38 @@
+# Kindling manifest — all kindling-origin files for push-kindling tracking.
+# Format: source_relative_to_.kindling/|destination_relative_to_consumer_root
+# Lines starting with # are ignored. Blank lines ignored.
+#
+# Files in .syncignore are NOT materialized to consumer roots (kindling-only files).
+# Everything else here IS copied to consumer roots on init/sync.
+
+# Kindling repo identity (syncignored — stay in .kindling/ only)
+KINDLING_REPO|KINDLING_REPO
+CHANGELOG.md|CHANGELOG.md
+INIT.MD|INIT.MD
+README.md|README.md
+kindling.manifest|kindling.manifest
+.syncignore|.syncignore
+docs/kindling-MAINTAINERS.md|docs/kindling-MAINTAINERS.md
+
+# Init / sync wrappers materialized at consumer root
+init-kindling|init-kindling
+sync-kindling|sync-kindling
+scripts/init-kindling.sh|scripts/init-kindling.sh
+scripts/sync-kindling.sh|scripts/sync-kindling.sh
+scripts/kindling-ignore.sh|scripts/kindling-ignore.sh
+scripts/init-skeleton.sh|scripts/init-skeleton.sh
+scripts/skeleton-ignore.sh|scripts/skeleton-ignore.sh
+
+# Cursor rules added to consumer repos (on top of skeleton rules)
+.cursor/rules/kindling-consumer.mdc|.cursor/rules/kindling-consumer.mdc
+
+# Claude rules mirrored from cursor
+.claude/rules/kindling-consumer.md|.claude/rules/kindling-consumer.md
+.claude/rules/kindling-repo-maintenance.md|.claude/rules/kindling-repo-maintenance.md
+
+# Cursor rules (maintenance — only applies in the canonical kindling repo)
+.cursor/rules/kindling-repo-maintenance.mdc|.cursor/rules/kindling-repo-maintenance.mdc
+
+# Kindling consumer layout reference (syncignored — stays in .kindling/ only)
+docs/kindling-consumer-layout.md|docs/kindling-consumer-layout.md
+docs/kindling-MAINTAINERS.md|docs/kindling-MAINTAINERS.md

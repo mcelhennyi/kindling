@@ -1,0 +1,7 @@
+This file marks the root of the canonical Kindling template repository.
+
+When KINDLING_REPO is present at the root of a checkout, the working tree IS
+the Kindling template — not a consumer plugin repo.
+
+Consumers of this template have .kindling/ as a git submodule pointing here.
+Maintainer docs: docs/kindling-MAINTAINERS.md

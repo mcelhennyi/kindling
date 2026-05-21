@@ -1,0 +1,86 @@
+---
+description: Rules for the canonical kindling template repo itself (not consumer repos). Applied when working inside git@github.com:mcelhennyi/kindling.git.
+alwaysApply: true
+---
+
+# Kindling repo maintenance rules
+
+These rules apply **only inside the canonical kindling repo** (marked by `KINDLING_REPO` at the root). For consumer repos, see `kindling-consumer.mdc`.
+
+Mirrors **`.claude/rules/kindling-repo-maintenance.md`**. Keep both files aligned when editing.
+
+## What this repo is
+
+Kindling is the **plugin-layer template** for Hearth — a skeleton consumer that also provides tooling and templates for Hearth plugin repos.
+
+```
+skeleton (.skeleton/)  — process tooling
+    └── kindling      — Hearth plugin contract + templates
+```
+
+## Mandatory sync: cursor ↔ claude rules
+
+`kindling-consumer.mdc` and `.claude/rules/kindling-consumer.md` **must stay identical in content**. When editing one, update the other in the same commit.
+
+Same rule applies to this file and its Claude mirror.
+
+## kindling.manifest discipline
+
+`kindling.manifest` is the authoritative list of all kindling-origin files. It has two categories:
+
+1. **Syncignored** — listed in `kindling.manifest` AND `.syncignore`. These stay inside `.kindling/` and are never copied to consumer roots.
+2. **Materialized** — listed in `kindling.manifest` only. These ARE copied to consumer roots on `init-kindling` / `sync-kindling`.
+
+When adding a new file that consumers should receive:
+- Add `source|destination` to `kindling.manifest`
+- Do **not** add it to `.syncignore`
+- Document in `CHANGELOG.md`
+
+When adding a kindling-internal file:
+- Add `source|destination` to `kindling.manifest`
+- Add `destination` to `.syncignore`
+- Document in `CHANGELOG.md`
+
+## Bundled skeleton scripts
+
+`scripts/init-skeleton.sh` and `scripts/skeleton-ignore.sh` are verbatim copies from `.skeleton/scripts/`. Keep them in sync:
+
+```bash
+diff scripts/init-skeleton.sh .skeleton/scripts/init-skeleton.sh
+diff scripts/skeleton-ignore.sh .skeleton/scripts/skeleton-ignore.sh
+```
+
+Both diffs must be empty before committing.
+
+## Templates
+
+`templates/plugin-python/` is a scaffold reference — it is **not** automatically applied to consumer repos. It uses `{{ token }}` placeholders that must be substituted at `kindling new <slug>` time (or manually).
+
+Do not add templates to `kindling.manifest` unless you want every consumer repo to receive them on sync.
+
+## Testing changes
+
+Before pushing any script change, test manually:
+
+```bash
+mkdir /tmp/test-$(date +%s) && cd /tmp/test-*
+git init && git remote add origin git@github.com:test/test-plugin.git
+cp /path/to/kindling/init-kindling .
+chmod +x init-kindling
+./init-kindling
+# Verify submodules, wrappers, and rule files are present
+```
+
+## CHANGELOG.md
+
+Always add an entry under `[Unreleased]` when changing:
+- Scripts in `scripts/`
+- Files in `kindling.manifest` or `.syncignore`
+- `kindling-consumer.mdc` / `.claude/rules/kindling-consumer.md`
+- Anything else that consumer repos will receive on `sync-kindling`
+
+## Branch policy
+
+- `main` is the production branch; consumer repos track it.
+- Never force-push `main`.
+- Use `fix/…` or `feat/…` branches for changes; merge via PR.

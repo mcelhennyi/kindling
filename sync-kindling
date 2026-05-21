@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Wrapper: sync-kindling — update .skeleton/ then .kindling/ and re-apply manifests.
+# Run from the plugin repo root.
+# After sync, read .skeleton/CHANGELOG.md and .kindling/CHANGELOG.md.
+set -euo pipefail
+exec bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/sync-kindling.sh" "$@"
