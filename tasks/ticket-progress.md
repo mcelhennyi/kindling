@@ -22,4 +22,7 @@
 
 | Ticket | Title | TEST | DEV | VAL | Notes |
 |--------|-------|------|-----|-----|-------|
-| *(none yet)* | — | — | — | — | Tickets land when `FR-0001-plugin-ui-system/tickets.md` is authored. |
+| T-FR-0001-01 | Python template tokens + meta + theme listener | — | — | — | `FR-0001` **design**. DF-T1. Deps: none. |
+| T-FR-0001-02 | React plugin template scaffold | — | — | — | `FR-0001` **design**. RW-T1. Cross-repo soft-dep: hearth T-FR-0006-15. |
+| T-FR-0001-03 | `init-kindling --template` flag | — | — | — | `FR-0001` **design**. Deps: T-FR-0001-01, T-FR-0001-02. |
+| T-FR-0001-04 | Template smoke + sync regression | — | — | — | `FR-0001` **design**. Deps: T-FR-0001-01..03. |
