@@ -34,6 +34,19 @@ Every file committed in this repo must satisfy the Hearth plugin contract:
 - `_try_publish()` / equivalent must skip silently if `HEARTH_SPARK_SOCK` is not set.
 - Never call hub internals over HTTP; use Spark only for cross-plugin communication.
 
+## UI contract (DF-C1)
+
+Every plugin with a web UI must satisfy the Mantle design-language contract documented in [`docs/design/plugin-ui-system.md`](../../docs/design/plugin-ui-system.md). At review time, enforce:
+
+- **Tokens only:** plugin CSS reads `--hearth-*` custom properties; no hardcoded brand colors. New status colors live in a plugin-namespaced custom property and are documented.
+- **Required meta tags** in the document head: `viewport-fit=cover`, `theme-color` (light + dark via `media` queries), `apple-mobile-web-app-capable=yes`, `apple-mobile-web-app-status-bar-style=black-translucent`.
+- **No duplicate shell chrome:** the plugin must not render a second top-fixed title bar that mirrors Mantle's, nor any iframe-bottom-pinned bar. In-frame sticky tab strips, sidebars, and inline toolbars are allowed (see Hearth `plugin-contract.md` § In-frame plugin chrome).
+- **Theme listener:** the plugin subscribes to `hearth.theme` postMessage events; on receive it rewrites `:root` tokens and updates the `theme-color` meta tag.
+- **`[ui.chrome]` slots:** declared in `tinder.toml` when the plugin mounts shell chrome buttons. Items conform to `ChromeButton` / `ChromeMenu` payload shape; per-plugin caps are top 3, bottom 4, total 8.
+- **Overlays via `@kindling/mantle`:** floating dialogs, sheets, and toasts use `<Sheet>` / `<Dialog>` / `<Toast>` so the shell renders them outside iframe clipping.
+
+When `@kindling/mantle` is unavailable (e.g. plain HTML static plugin), the same rules apply by hand — see the worked examples in `templates/plugin-python/web/dist/index.html` and `templates/plugin-react/`.
+
 ## Testing
 
 - Run tests inside Docker using the project's compose setup where available.
