@@ -9,7 +9,8 @@ plugin contract, templates, and rules.
 
 - `scripts/init-kindling.sh` — two-step init: skeleton layer first, then kindling layer
 - `scripts/sync-kindling.sh` — keep both layers up to date
-- `templates/plugin-python/` — Python FastAPI plugin starter template
+- `templates/plugin-python/` — Python FastAPI plugin starter template (Mantle tokens + theme listener)
+- `templates/plugin-react/` — Vite + React + `@kindling/mantle` starter template
 - **Python SDK** (repo root) — `kindling.cli`, `kindling.tinder`, `kindling.spark` (CLI, manifest schema, Spark clients)
 - **UI:** [`@kindling/mantle`](https://github.com/mcelhennyi/hearth/tree/main/packages/mantle) is published from **hearth**, not vendored here
 - `.cursor/rules/kindling-consumer.mdc` / `.claude/rules/kindling-consumer.md` — agent rules

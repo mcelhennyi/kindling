@@ -12,7 +12,7 @@ After running `./sync-kindling`, read this file. Follow any **`Consumer manual:`
 
 ### Template
 
-_No unreleased changes._
+- **FR-0001 plugin-ui-system:** Mantle-aligned Python `web/dist/index.html`; new `templates/plugin-react/` with `@kindling/mantle` ^0.1.0; `init-kindling --template` and `kindling new --template`.
 
 ### Deprecations
 

@@ -20,6 +20,7 @@ sync-kindling|sync-kindling
 scripts/init-kindling.sh|scripts/init-kindling.sh
 scripts/sync-kindling.sh|scripts/sync-kindling.sh
 scripts/kindling-ignore.sh|scripts/kindling-ignore.sh
+scripts/render-plugin-template.py|scripts/render-plugin-template.py
 scripts/init-skeleton.sh|scripts/init-skeleton.sh
 scripts/skeleton-ignore.sh|scripts/skeleton-ignore.sh
 

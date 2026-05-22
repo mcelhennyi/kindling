@@ -27,7 +27,71 @@ list_manifest_pairs() {
 # shellcheck source=kindling-ignore.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/kindling-ignore.sh"
 
+TEMPLATE_CHOICE=""
+PLUGIN_SLUG=""
+
+parse_args() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --template)
+        [[ $# -ge 2 ]] || die "--template requires python or react"
+        TEMPLATE_CHOICE="$2"
+        shift 2
+        ;;
+      --slug)
+        [[ $# -ge 2 ]] || die "--slug requires a value"
+        PLUGIN_SLUG="$2"
+        shift 2
+        ;;
+      -h|--help)
+        echo "Usage: init-kindling [--template python|react] [--slug <kebab-slug>]"
+        exit 0
+        ;;
+      *)
+        die "unknown argument: $1 (supported: --template, --slug)"
+        ;;
+    esac
+  done
+  if [[ -n "$TEMPLATE_CHOICE" && "$TEMPLATE_CHOICE" != python && "$TEMPLATE_CHOICE" != react ]]; then
+    die "--template must be python or react"
+  fi
+}
+
+resolve_plugin_slug() {
+  local root="$1"
+  if [[ -n "$PLUGIN_SLUG" ]]; then
+    echo "$PLUGIN_SLUG"
+    return
+  fi
+  local base
+  base="$(basename "$root")"
+  base="${base//_/-}"
+  base="$(echo "$base" | tr '[:upper:]' '[:lower:]')"
+  if [[ "$base" =~ ^[a-z][a-z0-9-]{0,31}$ ]]; then
+    echo "$base"
+    return
+  fi
+  die "could not infer plugin slug from $(basename "$root"); pass --slug"
+}
+
+prompt_template_if_needed() {
+  if [[ -n "$TEMPLATE_CHOICE" ]]; then
+    return
+  fi
+  if [[ -t 0 ]]; then
+    echo "init-kindling: choose template [python|react] (default python):"
+    read -r choice
+    TEMPLATE_CHOICE="${choice:-python}"
+  else
+    TEMPLATE_CHOICE="python"
+  fi
+  if [[ "$TEMPLATE_CHOICE" != python && "$TEMPLATE_CHOICE" != react ]]; then
+    die "invalid template choice: $TEMPLATE_CHOICE"
+  fi
+}
+
 main() {
+  parse_args "$@"
   local root
   root="$(repo_root)"
   cd "$root"
@@ -134,6 +198,29 @@ main() {
   chmod +x "$root/init-kindling" "$root/sync-kindling" 2>/dev/null || true
   chmod +x "$root/scripts/init-kindling.sh" "$root/scripts/sync-kindling.sh" 2>/dev/null || true
 
+  # -----------------------------------------------------------------------
+  # Step 4 (optional): scaffold plugin product files from a template
+  # Run when --template or --slug is passed, or when prompting on a fresh repo.
+  # -----------------------------------------------------------------------
+  if [[ -f "$root/KINDLING_REPO" ]]; then
+    : # canonical kindling repo — never scaffold product files here
+  elif [[ -n "$TEMPLATE_CHOICE" || -n "$PLUGIN_SLUG" ]] \
+    || { [[ ! -f "$root/tinder.toml" ]] && [[ -t 0 ]]; }; then
+    prompt_template_if_needed
+    local slug renderer
+    slug="$(resolve_plugin_slug "$root")"
+    renderer="$(dirname "${BASH_SOURCE[0]}")/render-plugin-template.py"
+    [[ -f "$renderer" ]] || renderer="$root/.kindling/scripts/render-plugin-template.py"
+    [[ -f "$renderer" ]] || die "render-plugin-template.py not found"
+    echo "init-kindling: Step 4 — rendering templates/plugin-${TEMPLATE_CHOICE}/ for slug ${slug} ..."
+    python3 "$renderer" \
+      --slug "$slug" \
+      --template "$TEMPLATE_CHOICE" \
+      --dest "$root" \
+      --into-root \
+      --kindling-root "$root/.kindling"
+  fi
+
   echo ""
   echo "init-kindling: complete."
   echo "  - .skeleton/ submodule: skeleton process tooling"
@@ -144,4 +231,7 @@ main() {
   echo "Sync later: ./sync-kindling"
 }
 
+# When invoked without --template, skip Step 4 unless the user passes --template explicitly.
+# init-kindling from a fresh curl bootstrap typically omits Step 4; use:
+#   ./init-kindling --template python --slug my-plugin
 main "$@"

@@ -4,3 +4,4 @@
 # See INIT.MD for the full walkthrough.
 set -euo pipefail
 exec bash "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/init-kindling.sh" "$@"
+# Supports: --template python|react  --slug <kebab-slug>
