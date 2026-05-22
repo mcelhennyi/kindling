@@ -1,0 +1,27 @@
+[plugin]
+slug        = "{{ plugin_slug }}"
+name        = "{{ plugin_name }}"
+version     = "0.1.0"
+hearth_min  = "0.1.0"
+description = "{{ plugin_description }}"
+kind        = "app"
+
+[entrypoint]
+backend = { kind = "python", module = "{{ python_package }}.app:create_app", port_env = "HEARTH_PLUGIN_PORT" }
+ui      = { kind = "static", path = "web/dist" }
+
+# Declare chrome slots when mounting shell buttons (see plugin-ui-system.md).
+# [ui.chrome]
+# top    = { slots = ["actions"] }
+# bottom = { slots = ["primary"] }
+
+[permissions]
+spark_publish   = ["{{ plugin_slug }}.*"]
+spark_subscribe = []
+spark_call      = []
+fs_paths        = ["plugins/{{ plugin_slug }}"]
+network         = "loopback"
+
+[backup]
+include = ["plugins/{{ plugin_slug }}/"]
+exclude = ["plugins/{{ plugin_slug }}/cache/"]

@@ -36,21 +36,32 @@ class KindlingError(RuntimeError):
 # ---------------------------------------------------------------------------
 
 
-def run_new(slug: str, *, parent: Path | None = None) -> Path:
-    """Scaffold a new plugin under *parent* / *slug*.
+def run_new(
+    slug: str,
+    *,
+    parent: Path | None = None,
+    template: str = "python",
+    kindling_root: Path | None = None,
+) -> Path:
+    """Scaffold a new plugin under *parent* / *slug* from a Kindling template."""
+    import sys
 
-    Returns the created plugin root directory.
-    Raises KindlingError on invalid slug or if the directory already exists.
-    """
-    from hearth_kindling_contract import KindlingTemplateError, render_plugin_template
+    root = Path(__file__).resolve().parents[2]
+    if str(root) not in sys.path:
+        sys.path.insert(0, str(root))
 
-    dest = parent if parent is not None else Path.cwd()
-    dest = dest.resolve()
+    from template_render import KindlingTemplateError, render_plugin_template
+
+    dest = (parent if parent is not None else Path.cwd()).resolve()
     try:
-        plugin_root = render_plugin_template(dest, slug=slug)
+        return render_plugin_template(
+            dest,
+            slug=slug,
+            template=template,
+            kindling_root=kindling_root,
+        )
     except KindlingTemplateError as exc:
         raise KindlingError(str(exc)) from exc
-    return plugin_root
 
 
 # ---------------------------------------------------------------------------
@@ -171,6 +182,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Parent directory (default: cwd)",
     )
+    p_new.add_argument(
+        "--template",
+        choices=("python", "react"),
+        default="python",
+        help="Template variant (default: python)",
+    )
 
     # validate
     p_val = sub.add_parser("validate", help="Validate a plugin tinder.toml")
@@ -210,7 +227,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "new":
         try:
-            plugin_root = run_new(args.slug, parent=args.parent)
+            plugin_root = run_new(
+                args.slug,
+                parent=args.parent,
+                template=args.template,
+            )
         except KindlingError as exc:
             print(f"kindling new: {exc}", file=sys.stderr)
             return 1
