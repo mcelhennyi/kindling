@@ -1,6 +1,6 @@
 # FR-0001 closeout — Plugin UI system
 
-**PR pending:** finish-feature opened PR to **`main`** from **`feat/FR-0001-plugin-ui-system`** — refresh merge line after human merge.
+**PR pending:** [#1](https://github.com/mcelhennyi/kindling/pull/1) → **`main`** from **`feat/FR-0001-plugin-ui-system`** @ `ade032e` — refresh merge line after human merge.
 
 ## Executive summary
 

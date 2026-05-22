@@ -7,7 +7,7 @@
 | FR id | Slug (directory) | Status | Tickets (when known) | Notes |
 |-------|------------------|--------|------------------------|-------|
 | FR-0000 | `FR-0000-bootstrap/` | `done` | — | Skeleton consumer + Hearth plugin template layer established. Commit `0b83879` (2026-05-20). No tickets — bootstrapped directly. |
-| FR-0001 | `FR-0001-plugin-ui-system/` | `done` | T-FR-0001-01..04 — [`90-closeout.md`](FR-0001-plugin-ui-system/90-closeout.md) | Plugin UI system shipped on **`feat/FR-0001-plugin-ui-system`**; PR → **`main`** pending merge. Hearth submodule bump after kindling merge (option A). |
+| FR-0001 | `FR-0001-plugin-ui-system/` | `done` | T-FR-0001-01..04 — [`90-closeout.md`](FR-0001-plugin-ui-system/90-closeout.md) | PR [#1](https://github.com/mcelhennyi/kindling/pull/1) → **`main`** @ `ade032e`. Hearth submodule bump after merge (option A). |
 
 **next_id:** `2`
 
