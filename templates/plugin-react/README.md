@@ -10,7 +10,7 @@ npm run dev      # Vite dev server (standalone preview)
 npm run build    # emits web/dist/ for tinder.toml static entrypoint
 ```
 
-`@kindling/mantle` is pinned at `^0.1.0` (published from [hearth `packages/mantle`](https://github.com/mcelhennyi/hearth/tree/main/packages/mantle)). For local hearth monorepo work before publish, set `KINDLING_MANTLE_PATH` to the mantle package directory when running template smoke tests.
+`@kindling/mantle` is pinned at `^0.1.0` from Kindling `mantle/`. For local work before a registry publish, set `KINDLING_MANTLE_PATH` to the Kindling mantle package directory when running template smoke tests.
 
 ## Backend
 

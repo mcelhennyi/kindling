@@ -12,7 +12,7 @@ plugin contract, templates, and rules.
 - `templates/plugin-python/` — Python FastAPI plugin starter template (Mantle tokens + theme listener)
 - `templates/plugin-react/` — Vite + React + `@kindling/mantle` starter template
 - **Python SDK** (repo root) — `kindling.cli`, `kindling.tinder`, `kindling.spark` (CLI, manifest schema, Spark clients)
-- **UI:** [`@kindling/mantle`](https://github.com/mcelhennyi/hearth/tree/main/packages/mantle) is published from **hearth**, not vendored here
+- **UI:** [`@kindling/mantle`](mantle/) lives in this repo and provides Mantle UI primitives, hooks, tokens, and the vanilla bridge
 - `.cursor/rules/kindling-consumer.mdc` / `.claude/rules/kindling-consumer.md` — agent rules
   enforcing the Hearth plugin contract in consumer repos
 

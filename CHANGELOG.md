@@ -14,9 +14,14 @@ After running `./sync-kindling`, read this file. Follow any **`Consumer manual:`
 
 - **FR-0001 plugin-ui-system:** Mantle-aligned Python `web/dist/index.html`; new `templates/plugin-react/` with `@kindling/mantle` ^0.1.0; `init-kindling --template` and `kindling new --template`.
 
+### Mantle
+
+- **Hearth FR-0007:** `@kindling/mantle` source, tests, package metadata, README, changelog, and build config now live in Kindling at `mantle/`. Hearth `packages/mantle/` is no longer the authoritative package home.
+- **Consumer manual:** Repos that used a Hearth-relative path for Mantle must switch to `@kindling/mantle` from Kindling `mantle/`, a private package artifact, or a later registry release. Verify with the consumer app's package install plus its standalone UI build.
+
 ### Deprecations
 
-_None._
+- Hearth-relative Mantle imports or package paths such as `../hearth/packages/mantle` are deprecated for plugin repos. Use `@kindling/mantle` instead.
 
 ---
 

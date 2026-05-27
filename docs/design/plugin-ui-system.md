@@ -26,7 +26,7 @@ Without this doc, every plugin author re-derives those facts from reading hearth
 
 The package is **authored in hearth** (FR-0006) and consumed via npm. Kindling templates pin a version per its `templates/plugin-react/package.json`.
 
-> **Status (2026-05-21):** `@kindling/mantle` **v0.1.0** ships from hearth FR-0006 (`packages/mantle`). The React template pins `^0.1.0` on npm; the Python template's `web/dist/index.html` includes inline `--hearth-*` tokens and a vanilla theme listener.
+> **Status (2026-05-27):** `@kindling/mantle` **v0.1.0** source now lives in Kindling `mantle/` after Hearth FR-0007 moved the FR-0006 private package out of Hearth's `packages/mantle/`. The React template pins `^0.1.0`; the Python template's `web/dist/index.html` includes inline `--hearth-*` tokens and a vanilla theme listener.
 
 ## Required `<head>` for every plugin
 
