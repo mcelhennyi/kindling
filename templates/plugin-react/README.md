@@ -10,7 +10,7 @@ npm run dev      # Vite dev server (standalone preview)
 npm run build    # emits web/dist/ for tinder.toml static entrypoint
 ```
 
-`@kindling/mantle` is pinned at `^0.1.0` from Kindling `mantle/`. For local work before a registry publish, set `KINDLING_MANTLE_PATH` to the Kindling mantle package directory when running template smoke tests.
+Rendered apps depend on `@kindling/mantle` from the Kindling checkout that generated the template, so standalone local development only needs Kindling, not a Hearth checkout. The generated install harness builds local Mantle before installing the app. Published apps may replace that `file:` dependency with the supported `@kindling/mantle` version range required by their target Kindling release.
 
 ## Backend
 

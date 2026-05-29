@@ -12,8 +12,16 @@ import {
 import { useEffect } from "react";
 
 export function App() {
+  return (
+    <MantleProvider>
+      <PluginContent />
+    </MantleProvider>
+  );
+}
+
+function PluginContent() {
   const { mode } = useTheme();
-  const { mount } = useChromeSlot("top", "actions");
+  const { mount } = useChromeSlot("top", "app");
 
   useEffect(() => {
     mount({
@@ -26,12 +34,10 @@ export function App() {
   }, [mount]);
 
   return (
-    <MantleProvider>
-      <Page>
-        <PageHeader title="{{ plugin_name }}" />
-        <p>Theme: {mode}</p>
-        <Button variant="accent">Example action</Button>
-      </Page>
-    </MantleProvider>
+    <Page>
+      <PageHeader title="{{ plugin_name }}" />
+      <p>Theme: {mode ?? "standalone"}</p>
+      <Button variant="accent">Example action</Button>
+    </Page>
   );
 }

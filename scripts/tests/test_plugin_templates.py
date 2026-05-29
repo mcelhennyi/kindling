@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import subprocess
 import tempfile
+import json
 from pathlib import Path
 
 import pytest
@@ -56,7 +57,15 @@ def test_render_react_scaffold_files() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = _render(Path(tmp), "demo-react", "react")
         assert (root / "package.json").is_file()
-        assert "@kindling/mantle" in (root / "package.json").read_text()
+        package_json = json.loads((root / "package.json").read_text())
+        mantle_dep = package_json["dependencies"]["@kindling/mantle"]
+        assert mantle_dep.startswith("file:")
+        assert "kindling/mantle" in mantle_dep
+        assert "prepare:mantle" in package_json["scripts"]
+        assert "preinstall" in package_json["scripts"]
+        assert 'import "@kindling/mantle/styles.css";' in (root / "src/main.tsx").read_text()
+        assert 'import "@kindling/mantle/components.css";' in (root / "src/main.tsx").read_text()
+        assert "<MantleProvider>" in (root / "src/App.tsx").read_text()
         assert (root / "src/App.tsx").is_file()
         assert (root / "vite.config.ts").is_file()
         html = (root / "index.html").read_text(encoding="utf-8")

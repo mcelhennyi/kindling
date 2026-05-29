@@ -6,6 +6,7 @@ Used by ``kindling new`` and ``init-kindling --template``.
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 from pathlib import Path
@@ -29,7 +30,13 @@ def slug_to_plugin_name(slug: str) -> str:
     return " ".join(part.capitalize() for part in slug.split("-"))
 
 
-def build_context(slug: str, *, description: str | None = None) -> dict[str, str]:
+def build_context(
+    slug: str,
+    *,
+    description: str | None = None,
+    mantle_dependency: str = "^0.1.0",
+    mantle_prepare_script: str = 'node -e "console.log(\\"using published @kindling/mantle\\")"',
+) -> dict[str, str]:
     if not _SLUG_RE.match(slug):
         raise KindlingTemplateError(
             f"slug '{slug}' must match ^[a-z][a-z0-9-]{{0,31}}$ (kebab-case ASCII, ≤ 32 chars)"
@@ -40,6 +47,8 @@ def build_context(slug: str, *, description: str | None = None) -> dict[str, str
         "python_package": slug_to_python_package(slug),
         "plugin_name": name,
         "plugin_description": description or f"{name} Hearth plugin",
+        "mantle_dependency": mantle_dependency,
+        "mantle_prepare_script": mantle_prepare_script,
     }
 
 
@@ -81,9 +90,13 @@ def render_plugin_template(
     """
     root = kindling_root or _find_kindling_root()
     src = template_dir(root, template)
-    context = build_context(slug, description=description)
     dest_parent = dest_parent.resolve()
     dest = dest_parent if into_root else (dest_parent / slug).resolve()
+    context = build_context(
+        slug,
+        description=description,
+        **_mantle_context(root, dest, template),
+    )
 
     if into_root:
         if (dest / "tinder.toml").exists() and not overwrite:
@@ -114,6 +127,35 @@ def render_plugin_template(
             target.chmod(0o755)
 
     return dest
+
+
+def _mantle_context(kindling_root: Path, dest: Path, template: str) -> dict[str, str]:
+    """Use local Kindling Mantle for generated React templates when available."""
+    fallback = {
+        "mantle_dependency": "^0.1.0",
+        "mantle_prepare_script": 'node -e "console.log(\\"using published @kindling/mantle\\")"',
+    }
+    if template != "react":
+        return fallback
+    mantle_root = kindling_root / "mantle"
+    if not (mantle_root / "package.json").is_file():
+        return fallback
+
+    relative = _relative_path(mantle_root.resolve(), dest.resolve())
+    return {
+        "mantle_dependency": f"file:{relative}",
+        "mantle_prepare_script": (
+            f"npm install --prefix {relative} --no-package-lock "
+            f"&& npm run --prefix {relative} build"
+        ),
+    }
+
+
+def _relative_path(target: Path, start: Path) -> str:
+    relative = Path(os.path.relpath(target, start)).as_posix()
+    if not relative.startswith("."):
+        relative = f"./{relative}"
+    return relative
 
 
 def _find_kindling_root() -> Path:

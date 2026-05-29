@@ -13,6 +13,8 @@ After running `./sync-kindling`, read this file. Follow any **`Consumer manual:`
 ### Template
 
 - **FR-0001 plugin-ui-system:** Mantle-aligned Python `web/dist/index.html`; new `templates/plugin-react/` with `@kindling/mantle` ^0.1.0; `init-kindling --template` and `kindling new --template`.
+- **Hearth FR-0007:** Rendered React templates use the local Kindling `mantle/` package for standalone development before a registry publish. The generated install harness builds local Mantle, imports Mantle token/component CSS, and keeps the package name `@kindling/mantle` for plugin-mode compatibility.
+- **Consumer manual:** Regenerate React templates or update existing generated apps to depend on `@kindling/mantle` from Kindling `mantle/` while unpublished, add the generated `prepare:mantle`/`preinstall` scripts, and verify with the app's install, typecheck, and build inside the development container.
 
 ### Mantle
 
